@@ -74,7 +74,7 @@
 #search:focus, input:focus{
     outline: none;
 }
-#search:focus, #search:hover{
+#search:focus, #search:hover, #search{
     box-shadow: 0 1px 6px rgba(32,33,36,.28);
     border: none;
     border-bottom-left-radius: 0;
@@ -95,7 +95,7 @@ button:focus{
 .bg-l-blue{
     background-color: #a6beff;
 }
-.bg-killer{
+.bg-brick{
     background-color: #ffa6a6;
 }
 
@@ -224,8 +224,10 @@ button:focus{
     padding-left: calc(5*0.25rem);
     padding-right: calc(5*0.25rem);
 }
-.py-10, .p-10{
+.pt-10 .py-10, .p-10{
     padding-top: calc(10*0.25rem);
+}
+.pb-10, .py-10, .p-10{
     padding-bottom: calc(10*0.25rem);
 }
 .px-10, .p-10{
@@ -263,6 +265,9 @@ button:focus{
 /* Colors */
 .color-red{
     color: #ec3c3c; /*E6461A*/
+}
+.color-brick{
+    color: #ff6d6d;
 }
 
 /* Border Base == px */
@@ -317,6 +322,9 @@ button:focus{
 .suggestion-list:hover{
     background-color: #f1f1f1;
     cursor: pointer;
+}
+img{
+    font-size: 12px;
 }
 
 
