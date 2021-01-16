@@ -1,10 +1,29 @@
 import React, { useState, useEffect } from "react";
 import MovieList from "../movie-list/MovieList.js";
+import NominationList from "../nomination-list/NominationList.js";
 
 export default function NominationApp(props) {
   const [state, setState] = useState("");
   const [loader, setLoader] = useState(false);
   const [results, setResults] = useState({});
+  const [nominations, setNominations] = useState([]);
+  const [modalState, setModalState] = useState({});
+
+  const toggleModal = async (e,movie) => {
+    
+    var modal = document.getElementById("myModal");
+    if(modal.style.display === "block"){
+      return (modal.style.display = "none");
+    }
+    await fetch(
+      `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&t=${movie.Title}`
+      )
+      .then((response) => response.json())
+      .then((data) => {
+        setModalState(data);
+    });
+    return setTimeout(e=>(modal.style.display = "block"), 100);
+  }
 
   useEffect(() => {
     if (
@@ -36,8 +55,31 @@ export default function NominationApp(props) {
 
   return (
     <div className="px-3 h-100vh">
+      <div id="myModal" className="modal">
+
+      <div className="modal-content">
+        <span onClick={toggleModal} className="close">&times;</span>
+        <div className="d-flex">
+          <div className="col-4">
+            <img alt="Poster" src={modalState.Poster} className="h-100" />
+          </div>
+          <div className="col-8 px-3 d-flex-col justify-between">
+            <div><strong className="fs-20">Title: </strong>{modalState.Title}</div>
+            <div><strong className="fs-20">Year: </strong>{modalState.Year}</div>
+            <div><strong className="fs-20">Genre: </strong>{modalState.Genre}</div>
+            <div><strong className="fs-20">ImdbRating: </strong>{modalState.imdbRating}</div>
+            <div><strong className="fs-20">Plot: </strong>{modalState.Plot}</div>
+            <div><strong className="fs-20">Writer: </strong>{modalState.Writer}</div>
+            <div><strong className="fs-20">ImdbID: </strong>{modalState.imdbID}</div>
+            <div><strong className="fs-20">Length: </strong>{modalState.Runtime}</div>
+          </div>
+        </div>
+      </div>
+
+      </div>
+
       <nav className="d-flex align-center py-3">
-        <form id="searchForm" className="w-100 mb-10">
+        <form onSubmit={e => e.preventDefault()} id="searchForm" className="w-100 mb-10">
           <div className="text-center fs-36 mb-4 ff-linux">
             Nominate <strong className="color-red">OMDB</strong> movies
           </div>
@@ -47,13 +89,12 @@ export default function NominationApp(props) {
                 value={state}
                 onInput={(e) => setState(e.target.value)}
                 type="text"
-                className="ff-cursive h-30 br-3 fs-24 bs-17-n-13-20"
-                id="search"
+                className="ff-cursive h-30 br-3 fs-24 bs-17-n-13-20 px-4"
+                // id="search"
                 placeholder="Movie name"
                 required
               />
               <button
-                type="submit"
                 className="absolute bottom-0 right-0 mr-3 mb-1"
               >
                 <img
@@ -64,25 +105,27 @@ export default function NominationApp(props) {
               </button>
             </div>
           </div>
-          <div className="d-flex justify-center mt-2">
+          {/* <div className="d-flex justify-center mt-2">
             <div className="w-50vw d-flex justify-between">
               <div>
                 <input type="radio" name="advanced search" />
                 <label htmlFor="advanced-search">Advanced Search</label>
               </div>
             </div>
-          </div>
+          </div> */}
         </form>
       </nav>
       <section className="d-flex justify-between mx-5">
-        <main className="col-6 p-3 bg-white bs-1-1-3">
-          <h4 className="">Showing results for "{state}"</h4>
+        <main className="col-6 p-3 bg-white bs-1-1-3 br-soft">
+          <h4 className="mb-4">Showing results for "{state}"</h4>
 
-          <MovieList loader={loader} results={results} />
+          <MovieList loader={loader} results={results} nominations={nominations} setNominations={setNominations} toggleModal={toggleModal} />
 
         </main>
-        <aside className="col-4 p-3 bg-white bs-1-1-3">
-          <div>sdfgfdsdf</div>
+        <aside className="col-4 p-3 bg-white bs-1-1-3 br-soft">
+
+          <NominationList nominations={nominations} setNominations={setNominations} />
+        
         </aside>
       </section>
     </div>
