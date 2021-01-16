@@ -20,7 +20,7 @@ export default function NominationApp(props) {
     if (state !== "") {
       setLoader(true);
       fetch(
-        `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&s=${state}`
+        `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&s=${state}`
       )
         .then((data) => data.json())
         .then((data) => {

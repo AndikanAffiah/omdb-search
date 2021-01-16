@@ -16,7 +16,7 @@ export default function HomeSearch(props) {
     }));
 
     await fetch(
-      `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&s=${value}`
+      `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&s=${value}`
     )
       .then((response) => response.json())
       .then((data) => {
