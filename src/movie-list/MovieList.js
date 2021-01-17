@@ -18,11 +18,11 @@ export default function MovieList(props) {
     return <div className="color-red">{props.results.Error}</div>;
   } else {
     return (
-      <div className="list h-400-px d-flex justify-center">
-        <div className="w-90">
+      <div className="list h-400-px">
+        
         {props.results.Search ? (
           props.results.Search.map((movie, index) => (
-            <div className="d-flex w-90 border-1 br-soft mb-4 bs-1-1-5 my-2" key={index}>
+            <div className="d-flex w-90 border-1 br-soft mb-4 bs-1-1-5 my-2 suggestion-list" key={index}>
               <div className="img py-1">
                 <img id="imt" width="50" src={movie.Poster} alt="movie_icon" />
               </div>
@@ -31,7 +31,7 @@ export default function MovieList(props) {
                   {movie.Title} ({movie.Year})
                 </div>
                 <div className="px-2 w-90 d-flex justify-between">
-                  <button onClick={e => props.toggleModal(e,movie)} className="p-2 br-soft border-1 bg-blue color-white">Details</button>
+                  <button onClick={e => props.toggleModal(e,movie)} className="p-2 br-soft border-1 bg-blue color-white cursor-pointer">Details</button>
                   <button
                     disabled={props.nominations.some(element => 
                         element.imdbID  === movie.imdbID 
@@ -45,7 +45,7 @@ export default function MovieList(props) {
 
                       }
                     }}
-                    className="p-2 br-soft border-1 bg-green color-greywhite"
+                    className="p-2 br-soft border-1 bg-green color-greywhite cursor-pointer"
                   >
                     Nominate
                   </button>
@@ -56,7 +56,7 @@ export default function MovieList(props) {
         ) : (
           <div>nothing yet.. try searching for movies</div>
         )}
-        </div>
+        
       </div>
     );
   }

@@ -78,18 +78,18 @@ export default function NominationApp(props) {
 
       </div>
 
-      <nav className="d-flex align-center py-3">
-        <form onSubmit={e => e.preventDefault()} id="searchForm" className="w-100 mb-10">
+      <nav className="d-flex justify-center align-center py-3">
+        <form onSubmit={e => e.preventDefault()} id="searchForm" className="w-50vw mb-10 bg p-3 br-soft bg-white">
           <div className="text-center fs-36 mb-4 ff-linux">
             Nominate <strong className="color-red">OMDB</strong> movies
           </div>
-          <div className="d-flex justify-center">
+          <div className="d-flex justify-center w-100">
             <div className="relative">
               <input
                 value={state}
                 onInput={(e) => setState(e.target.value)}
                 type="text"
-                className="ff-cursive h-30 br-3 fs-24 bs-17-n-13-20 px-4"
+                className="ff-cursive h-30 br-3 fs-24 bs-17-n-13-20 px-4 border-1"
                 // id="search"
                 placeholder="Movie name"
                 required
@@ -116,13 +116,13 @@ export default function NominationApp(props) {
         </form>
       </nav>
       <section className="d-flex justify-between mx-5">
-        <main className="col-6 p-3 bg-white bs-1-1-3 br-soft">
+        <main className="col-5 p-3 bg-white bs-1-1-3 br-soft">
           <h4 className="mb-4">Showing results for "{state}"</h4>
 
           <MovieList loader={loader} results={results} nominations={nominations} setNominations={setNominations} toggleModal={toggleModal} />
 
         </main>
-        <aside className="col-4 p-3 bg-white bs-1-1-3 br-soft">
+        <aside className="col-5 p-3 bg-white bs-1-1-3 br-soft">
 
           <NominationList nominations={nominations} setNominations={setNominations} />
         
