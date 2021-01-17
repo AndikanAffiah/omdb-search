@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { Link } from "react-router-dom";
-// import ListData from "./list/ListData.js";
+// import ImageCard from "./ImageCard.js";
 
 export default function HomeSearch(props) {
   const [movies, setMovies] = useState([]);
@@ -43,13 +43,11 @@ export default function HomeSearch(props) {
 
   return (
     <div className="main">
-      <div className="absolute top-0 left-0 w-100 h-100 py-3">
+      {/* <div className="absolute top-0 left-0 w-100 h-100 py-3">
         <div className="relative w-100 h-100">
-          <div className="d-flex justify-between h-200-px transform-z-15 absolute top-200">
-            <div className="w-130-px h-170-px mx-5 d-flex justify-center align-center">
-              <div className="card w-100-px h-140-px bg-l-blue">sdfgfd</div>
-            </div>
-          </div>
+
+        <ImageCard />
+
           <div className="d-flex justify-between h-200-px transform-z-15 absolute top-500">
             <div className="w-130-px h-170-px mx-5 d-flex justify-center align-center">
               <div className="card w-100-px h-140-px bg-l-blue">sdfgfd</div>
@@ -61,7 +59,7 @@ export default function HomeSearch(props) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <form
         onSubmit={handleSubmit}
         id="searchForm"

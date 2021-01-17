@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 
 export default function NominationList (props) {
+
+    // useEffect(()=>{
+    // //   if(props.nominations){
+    // //       if(window.indexedDB){
+
+    // //       }
+    // //   }  
+    // })
     return (
         <div>
+            <h4 className="mb-4 d-flex justify-between">
+                <div>Nominations List</div>
+                <div><button className="color-white cursor-pointer p-2 border-1 bg-l-blue">Save List</button></div>
+            </h4>
+            <div className="list h-400-px">
             {props.nominations.map((movie, index) => (
                 <div className="d-flex suggestion-list border-1 bs-1-1-5 mb-4 br-soft" key={index}>
                 <div className="img py-1">
@@ -25,11 +38,12 @@ export default function NominationList (props) {
                                 return item !== movie 
                             });
                             props.setNominations(newMovieArray);
-                        }} className="p-1 w-50 bg-brick color-white br-soft border-1">Remove</button>
+                        }} className="p-1 w-50 bg-brick color-white br-soft border-1 cursor-pointer">Remove</button>
                     </div>
                 </div>
             </div>
             ))}
+            </div>
         </div>
     );
 }
