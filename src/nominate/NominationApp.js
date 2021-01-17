@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MovieList from "../movie-list/MovieList.js";
 import NominationList from "../nomination-list/NominationList.js";
+import Dexie from 'dexie';
 
 export default function NominationApp(props) {
   const [state, setState] = useState("");
@@ -9,21 +10,10 @@ export default function NominationApp(props) {
   const [nominations, setNominations] = useState([]);
   const [modalState, setModalState] = useState({});
 
-  const toggleModal = async (e,movie) => {
-    
-    var modal = document.getElementById("myModal");
-    if(modal.style.display === "block"){
-      return (modal.style.display = "none");
-    }
-    await fetch(
-      `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&t=${movie.Title}`
-      )
-      .then((response) => response.json())
-      .then((data) => {
-        setModalState(data);
-    });
-    return setTimeout(e=>(modal.style.display = "block"), 100);
-  }
+  let db = new Dexie("nominations");
+  db.version(1).stores({
+      movie: 'imdbID,Poster,Title,Type,Year'
+  });
 
   useEffect(() => {
     if (
@@ -34,14 +24,14 @@ export default function NominationApp(props) {
       setState(data);
     }
   }, [props]);
-
+  
   useEffect(() => {
     if (state !== "") {
       setLoader(true);
       fetch(
         `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&s=${state}`
       )
-        .then((data) => data.json())
+      .then((data) => data.json())
         .then((data) => {
           setLoader(false);
           setResults(data);
@@ -50,10 +40,46 @@ export default function NominationApp(props) {
           setLoader(false)
           setResults({Error: 'failed to make request', type: 'failed request'})
         });
-    }
-  }, [state]);
+      }
+    }, [state]);
 
-  return (
+    useEffect(()=>{
+      if(db){
+        // db.tables.forEach(e => console.log(e.Title))
+        // console.log(db.movie.get(1))
+        const movies = (async () => (await db.movie.orderBy("imdbID").limit(5).toArray()))()
+        // console.log(movies[0]);
+        movies.then((movie)=>{
+          setNominations(movie)
+        })
+      }
+    },[props])
+    
+
+
+    const toggleModal = async (e,movie) => {
+      
+      var modal = document.getElementById("myModal");
+      if(modal.style.display === "block"){
+        return (modal.style.display = "none");
+      }
+      await fetch(
+        `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&t=${movie.Title}`
+        )
+        .then((response) => response.json())
+        .then((data) => {
+          setModalState(data);
+      });
+      return setTimeout(e=>(modal.style.display = "block"), 100);
+    }
+
+    const saveToDB = async (e) => {
+      // await db.friends.bulkDelete();
+      await db.movie.bulkPut(nominations);
+      // console.log(a)
+    }
+
+    return (
     <div className="px-3 h-100vh">
       <div id="myModal" className="modal">
 
@@ -124,7 +150,7 @@ export default function NominationApp(props) {
         </main>
         <aside className="col-5 p-3 bg-white bs-1-1-3 br-soft">
 
-          <NominationList nominations={nominations} setNominations={setNominations} />
+          <NominationList saveToDB={saveToDB} nominations={nominations} setNominations={setNominations} />
         
         </aside>
       </section>

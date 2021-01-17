@@ -461,6 +461,9 @@ img{
         width: 90vw;
         font-size: 18px;
     }
+    #searchForm{
+        width: 90vw;
+    }
 }
 
 /* Animations */

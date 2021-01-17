@@ -1,20 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 
 export default function NominationList (props) {
-
-    // useEffect(()=>{
-    // //   if(props.nominations){
-    // //       if(window.indexedDB){
-
-    // //       }
-    // //   }  
-    // })
     return (
         <div>
             <h4 className="mb-4 d-flex justify-between">
                 <div>Nominations List</div>
-                <div><button className="color-white cursor-pointer p-2 border-1 bg-l-blue">Save List</button></div>
+                <div>
+                    <button onClick={e=>(props.saveToDB(e))} className="color-white cursor-pointer p-2 border-1 bg-l-blue">Save List</button>
+                    </div>
             </h4>
             <div className="list h-400-px">
             {props.nominations.map((movie, index) => (
