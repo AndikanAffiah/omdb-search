@@ -450,6 +450,11 @@ img{
     cursor: pointer;
 }
 
+.d-box-2{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
 
 
 
@@ -462,8 +467,33 @@ img{
         width: 90vw;
         font-size: 18px;
     }
+    .d-md-box-4{
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+    }
     #searchForm{
         width: 90vw;
+    }
+    .d-md-block{
+        display: block  ;
+    }
+    .w-md-100{
+        width: 100%;
+    }
+    .modal img{
+        width: 100%!important;
+        height: 400px;
+    }
+    .fs-md-12{
+        font-size: 12px;
+    }
+    .mx-md-0{
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .h-md-200-px{
+        height: 200px;
     }
 }
 
