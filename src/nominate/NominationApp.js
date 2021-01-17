@@ -47,7 +47,6 @@ export default function NominationApp(props) {
 
     useEffect(()=>{
       if(reRender){
-        console.log("hey")
         const moviesArray = (async () => (await db.movies.orderBy("imdbID").limit(5).toArray()))()
         moviesArray.then(async (movie)=>{
           if(movie.length > 0){
@@ -103,7 +102,7 @@ export default function NominationApp(props) {
       </div>
 
       <nav className="d-flex justify-center align-center py-3">
-        <form onSubmit={e => e.preventDefault()} id="searchForm" className="w-50vw mb-10 bg p-3 br-soft bg-white">
+        <form onSubmit={e => e.preventDefault()} id="searchForm" className="w-50vw mb-7 bg p-3 br-soft bg-white">
           <div className="text-center fs-36 mb-4 ff-linux">
             Nominate <strong className="color-red">OMDB</strong> movies
           </div>
@@ -129,14 +128,9 @@ export default function NominationApp(props) {
               </button>
             </div>
           </div>
-          {/* <div className="d-flex justify-center mt-2">
-            <div className="w-50vw d-flex justify-between">
-              <div>
-                <input type="radio" name="advanced search" />
-                <label htmlFor="advanced-search">Advanced Search</label>
-              </div>
-            </div>
-          </div> */}
+          <div className="d-flex justify-center mt-2 absolute top-0 right-0">
+              <div className="mb-4"><a href="https://github.com/AndikanAffiah/omdb-search"><strong>Link to code</strong></a></div>
+          </div>
         </form>
       </nav>
       <section className="d-flex justify-between mx-5">
