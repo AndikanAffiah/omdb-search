@@ -49,9 +49,7 @@ export default function NominationApp(props) {
       if(reRender){
         const moviesArray = (async () => (await db.movies.orderBy("imdbID").limit(5).toArray()))()
         moviesArray.then(async (movie)=>{
-          if(movie.length > 0){
             setNominations(movie);
-          }
         })
         setReRenderState(false)
       }
@@ -66,7 +64,7 @@ export default function NominationApp(props) {
         return (modal.style.display = "none");
       }
       await fetch(
-        `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&t=${movie.Title}`
+        `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_KEY}&t=${movie.Title}&type=movie`
         )
         .then((response) => response.json())
         .then((data) => {
@@ -80,19 +78,19 @@ export default function NominationApp(props) {
     <div className="px-3 h-100vh">
       <div id="myModal" className="modal">
 
-      <div className="modal-content">
+      <div className="modal-content br-soft">
         <span onClick={toggleModal} className="close">&times;</span>
-        <div className="d-flex">
-          <div className="col-4">
-            <img alt="Poster" src={modalState.Poster} className="h-100" />
+        <div className="d-flex d-md-block">
+          <div className="col-4 w-md-100">
+            <img alt="Poster" src={modalState.Poster === "N/A"? "no-img.jpg": modalState.Poster} className="h-100 w-100"/>
           </div>
-          <div className="col-8 px-3 d-flex-col justify-between">
+          <div className="col-8 px-3 d-flex-col justify-between w-md-block w-md-100">
             <div><strong className="fs-20">Title: </strong>{modalState.Title}</div>
             <div><strong className="fs-20">Year: </strong>{modalState.Year}</div>
             <div><strong className="fs-20">Genre: </strong>{modalState.Genre}</div>
             <div><strong className="fs-20">ImdbRating: </strong>{modalState.imdbRating}</div>
-            <div><strong className="fs-20">Plot: </strong>{modalState.Plot}</div>
-            <div><strong className="fs-20">Writer: </strong>{modalState.Writer}</div>
+            <div><strong className="fs-20 d-box-2 d-md-box-4">Plot: </strong>{modalState.Plot}</div>
+            <div><strong className="fs-20 d-box-2 d-md-box-4">Writer: </strong>{modalState.Writer}</div>
             <div><strong className="fs-20">ImdbID: </strong>{modalState.imdbID}</div>
             <div><strong className="fs-20">Length: </strong>{modalState.Runtime}</div>
           </div>
@@ -133,14 +131,14 @@ export default function NominationApp(props) {
           </div>
         </form>
       </nav>
-      <section className="d-flex justify-between mx-5">
-        <main className="col-5 p-3 bg-white bs-1-1-3 br-soft">
+      <section className="d-flex justify-between mx-5 mx-md-0 d-md-block">
+        <main className="col-5 p-3 bg-white bs-1-1-3 br-soft w-md-100 mb-4">
           <h4 className="mb-4">Showing results for "{state}"</h4>
 
           <MovieList db={db} reRender={render} setReRenderState={setReRenderState} loader={loader} results={results} nominations={nominations} setNominations={setNominations} toggleModal={toggleModal} />
 
         </main>
-        <aside className="col-5 p-3 bg-white bs-1-1-3 br-soft">
+        <aside className="col-5 p-3 bg-white bs-1-1-3 br-soft w-md-100">
 
           <NominationList db={db} reRender={render} setReRenderState={setReRenderState} nominations={nominations} setNominations={setNominations} />
         
