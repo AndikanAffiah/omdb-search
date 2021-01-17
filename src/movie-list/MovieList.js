@@ -37,13 +37,18 @@ export default function MovieList(props) {
                         element.imdbID  === movie.imdbID 
                     )}
                     
-                    onClick={(e) => {
-                      if(props.nominations.length < 5){
-                        props.setNominations((prev) => [...prev, movie]);
-                        handleNominateClick(e);
-                      }else if(props.nominations.length === 5){
-
-                      }
+                    onClick={async (e) => {
+                      let moviesLength;
+                      const moviesArray = (async () => (await props.db.movies.orderBy("imdbID").limit(5).toArray()))()
+                      moviesArray.then(async (movies)=>{
+                        console.log(movies.length);
+                        moviesLength = movies.length
+                        if(moviesLength < 5){
+                          await props.db.movies.put(movie);
+                          handleNominateClick(e);
+                          props.setReRenderState(true)
+                        }
+                      })
                     }}
                     className="p-2 br-soft border-1 bg-green color-greywhite cursor-pointer"
                   >

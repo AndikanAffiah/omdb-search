@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MovieList from "../movie-list/MovieList.js";
 import NominationList from "../nomination-list/NominationList.js";
 import Dexie from 'dexie';
+import { render } from "react-dom";
 
 export default function NominationApp(props) {
   const [state, setState] = useState("");
@@ -9,10 +10,11 @@ export default function NominationApp(props) {
   const [results, setResults] = useState({});
   const [nominations, setNominations] = useState([]);
   const [modalState, setModalState] = useState({});
+  const [reRender, setReRenderState] = useState(true);
 
-  let db = new Dexie("nominations");
+  const db = new Dexie("nominations");
   db.version(1).stores({
-      movie: 'imdbID,Poster,Title,Type,Year'
+      movies: 'imdbID,Poster,Title,Type,Year'
   });
 
   useEffect(() => {
@@ -44,16 +46,17 @@ export default function NominationApp(props) {
     }, [state]);
 
     useEffect(()=>{
-      if(db){
-        // db.tables.forEach(e => console.log(e.Title))
-        // console.log(db.movie.get(1))
-        const movies = (async () => (await db.movie.orderBy("imdbID").limit(5).toArray()))()
-        // console.log(movies[0]);
-        movies.then((movie)=>{
-          setNominations(movie)
+      if(reRender){
+        console.log("hey")
+        const moviesArray = (async () => (await db.movies.orderBy("imdbID").limit(5).toArray()))()
+        moviesArray.then(async (movie)=>{
+          if(movie.length > 0){
+            setNominations(movie);
+          }
         })
+        setReRenderState(false)
       }
-    },[props])
+    },[reRender,db.movies,nominations])
     
 
 
@@ -73,11 +76,6 @@ export default function NominationApp(props) {
       return setTimeout(e=>(modal.style.display = "block"), 100);
     }
 
-    const saveToDB = async (e) => {
-      // await db.friends.bulkDelete();
-      await db.movie.bulkPut(nominations);
-      // console.log(a)
-    }
 
     return (
     <div className="px-3 h-100vh">
@@ -145,12 +143,12 @@ export default function NominationApp(props) {
         <main className="col-5 p-3 bg-white bs-1-1-3 br-soft">
           <h4 className="mb-4">Showing results for "{state}"</h4>
 
-          <MovieList loader={loader} results={results} nominations={nominations} setNominations={setNominations} toggleModal={toggleModal} />
+          <MovieList db={db} reRender={render} setReRenderState={setReRenderState} loader={loader} results={results} nominations={nominations} setNominations={setNominations} toggleModal={toggleModal} />
 
         </main>
         <aside className="col-5 p-3 bg-white bs-1-1-3 br-soft">
 
-          <NominationList saveToDB={saveToDB} nominations={nominations} setNominations={setNominations} />
+          <NominationList db={db} reRender={render} setReRenderState={setReRenderState} nominations={nominations} setNominations={setNominations} />
         
         </aside>
       </section>

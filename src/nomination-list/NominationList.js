@@ -6,9 +6,9 @@ export default function NominationList (props) {
         <div>
             <h4 className="mb-4 d-flex justify-between">
                 <div>Nominations List</div>
-                <div>
+                {/* <div>
                     <button onClick={e=>(props.saveToDB(e))} className="color-white cursor-pointer p-2 border-1 bg-l-blue">Save List</button>
-                    </div>
+                    </div> */}
             </h4>
             <div className="list h-400-px">
             {props.nominations.map((movie, index) => (
@@ -28,10 +28,9 @@ export default function NominationList (props) {
                     <div className="px-2 w-90 d-flex justify-center">
                         <button 
                         onClick={e => {
-                            const newMovieArray = props.nominations.filter( item => { 
-                                return item !== movie 
-                            });
-                            props.setNominations(newMovieArray);
+                            //remove to db
+                            props.db.movies.delete(movie.imdbID);
+                            props.setReRenderState(true);
                         }} className="p-1 w-50 bg-brick color-white br-soft border-1 cursor-pointer">Remove</button>
                     </div>
                 </div>
