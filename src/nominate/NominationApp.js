@@ -129,6 +129,11 @@ export default function NominationApp(props) {
           <div className="d-flex justify-center mt-2 absolute top-0 right-0">
               <div className="mb-4"><a href="https://github.com/AndikanAffiah/omdb-search"><strong>Link to code</strong></a></div>
           </div>
+        {nominations.length === 5 ?
+          <div className="d-flex mt-2 absolute top-0 left-0 bg-green p-2 br-soft color-white">
+              You have nominated 5 movies
+          </div> : <div></div>
+          }
         </form>
       </nav>
       <section className="d-flex justify-between mx-5 mx-md-0 d-md-block">
