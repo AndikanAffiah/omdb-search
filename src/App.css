@@ -112,14 +112,14 @@ button:focus{
 .bg-green{
     background-color: #4caf50;
 }
-.bg-green:disabled{
-    background-color: #317033;
+button.bg-green:disabled{
+    background-color: #81af82;
 }
-.bg-green:hover{
+button.bg-green:hover{
     background-color: #68f06c;
 }
-.bg-green:disabled:hover{
-    background-color: #317033;
+button.bg-green:disabled:hover{
+    background-color: #81af82;
 }
 
 
