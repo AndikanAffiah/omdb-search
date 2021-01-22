@@ -13,8 +13,8 @@ export default function App() {
   return (
       <Router>
         <Switch>
-          <Route component={NominationApp} path="/nominate"/>
-          <Route component={HomeSearch} path="/"/>
+          {/* <Route component={NominationApp} path="/nominate"/> */}
+          <Route component={NominationApp} path="/"/>
         </Switch>
     </Router>
   );
