@@ -1,5 +1,5 @@
 import React from "react";
-import HomeSearch from "./search/HomeSearch.js";
+// import HomeSearch from "./search/HomeSearch.js";
 import NominationApp from "./nominate/NominationApp.js";
 import './App.css';
 
